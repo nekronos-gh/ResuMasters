@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from PyPDF2 import PdfReader
 from docx2txt import process
+from open_interface import load_api_keys_from_json
 import re
 import os
 
@@ -13,6 +14,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf','docx'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
+load_api_keys_from_json(os.path("keys.json"))
 
 
 def allowed_file(filename):
