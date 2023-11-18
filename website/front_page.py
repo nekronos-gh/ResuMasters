@@ -3,6 +3,7 @@ import os
 
 from flask import Flask, render_template, request, redirect, url_for
 from PyPDF2 import PdfReader
+import re
 #from google.cloud import storage
 
 app = Flask(__name__)
@@ -83,6 +84,8 @@ def extract_file_content(filename):
             text_content = ''
             for page in pdf_reader.pages:
                 text_content += page.extract_text()
+            text_content = re.sub(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*','', text_content)
+            text_content = re.sub(r'(\+[0-9]+\s*)?(\([0-9]+\))?[\s0-9\-]+[0-9]+','', text_content)
             return text_content
     elif filename.endswith('.txt'):
         # Read text content from a text file
