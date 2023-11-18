@@ -44,6 +44,20 @@ def scrub_NoEmailLinkedin(content):
     content = re.sub(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*','', content)
     content = re.sub(r'(\+[0-9]+\s*)?(\([0-9]+\))?[\s0-9\-]+[0-9]+','', content)
     return content
+
+'''
+def display_job_suggestions(resume):
+    # Add logic to display job suggestions based on file_content and job_description
+    suggestions = get_recommendations(resume)
+    return render_template('job_suggestions.html', suggestions=suggestions)
+'''
+
+def display_resume_improvement(resume, job_description):
+    # Add logic to display resume improvement suggestions based on file_content and job_description
+    improvement_file = gap_finder(resume, job_description)
+    
+    #return render_template('display_content.html', filename=improvement_file)
+    return redirect(url_for('display_content', filename=improvement_file))
     
 @app.route('/')
 def front_page():
@@ -62,6 +76,7 @@ def skill_improvement():
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
 
+    '''
     if category == "job_matches":
     
         if 'file' not in request.files:
@@ -83,6 +98,7 @@ def upload(category):
             return redirect(url_for('display_content', filename=file.filename))
 
         return render_template('upload_page_job_suggest.html', message='Invalid file format')
+    '''
     
     if category == "skill_improvement":
             
@@ -105,26 +121,29 @@ def upload(category):
             file.save(filename)
             
             # Extract information from the uploaded file
-            file_content = extract_file_content(filename)
+            resume = extract_file_content(filename)
+            
+            return display_resume_improvement(resume, job_description)
 
             
-            return redirect(url_for('display_content', filename=file.filename))
+            #return redirect(url_for('display_content_skill', filename=file.filename))
 
         return render_template('upload_page_skill_suggest.html', message='Invalid file format')
-    
+        
+        
 @app.route('/display_content/<filename>')
 def display_content(filename):
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    job_description_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'job_description.txt')
+    #job_description_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'job_description.txt')
     
     # Extract information from the uploaded file
     file_content = extract_file_content(file_path)
     
     # Read job description from the file
-    with open(job_description_filename, 'r') as job_file:
-        job_description = job_file.read()
+    #with open(job_description_filename, 'r') as job_file:
+        #job_description = job_file.read()
 
-    return render_template('display_content.html', file_content=file_content, job_description=job_description)
+    return render_template('display_content.html', file_content=file_content)
 
 
 
