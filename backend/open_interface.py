@@ -25,3 +25,13 @@ def ask_gpt(text_query):
                 model="gpt-4",
                 messages=[{"role": "user", "content": f"{text_query}"}]
                 ).choices[0].message.content
+
+def ask_gpt_context(context="", text_query):
+    client = AzureOpenAI(
+        api_version="2023-07-01-preview",
+        azure_endpoint=os.environ.get("AZURE_ENDPOINT")
+    )
+    return  client.chat.completions.create(
+                model="gpt-4",
+                messages=[{"role": "user", "content": f"<previous_context>{context}</previous_context>\nHuman: {text_query}\nChatGPT:"}]
+                ).choices[0].message.content
