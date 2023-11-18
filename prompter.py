@@ -7,7 +7,10 @@ prompts = [
     'Based on the comparison results, identify and list the skills gaps between the candidate''s resume and the job posting. Pinpoint areas where the candidate may be have room for improvement in required skills, experience, or qualifications. ',
     'Generate actionable advice for the job applicant to address the identified skills gaps. Suggest specific steps the candidate can take, such as acquiring relevant certifications, gaining additional experience, or highlighting transferable skills. Offer clear and practical recommendations. ',
     'Now, sort the identified skills gaps and advice and assign a priority, based on their impact on the candidate''s suitability for the job role. Consider which gaps are critical for success in the position and should be addressed first. Provide a ranked list of recommendations. ',
-    'Present the comparison results, skills gaps where they do exist, and prioritized recommendations in a clear and concise format. Use language that is easy for the candidate to understand, and provide specific examples or suggestions for improvement. '
+    'Present the comparison results, skills gaps where they do exist, and prioritized recommendations in a clear and concise format. Use language that is easy for the candidate to understand, and provide specific examples or suggestions for improvement. ',
+    'Analyze the following job posting and attached resume. Identify key skills mentioned in the job posting, compare the applicant''s job history with the job requirements, and assess how well the applicant''s education aligns with the position. Provide insights into the relevance of experiences and qualifications.',
+    'Given the mentioned job posting and resume, as well as the following focus areas, match the skills mentioned in the job posting with those on the resume. Identify any gaps in the applicant''s skills based on the job requirements. Additionally, assess if the applicant''s past experiences cover the required tasks and responsibilities, pinpointing areas where the experience falls short.',
+    'Provide actionable advice based on the job posting and the applicant''s resume. Identify and emphasize the applicant''s strengths and experiences that align well with the job posting. Offer constructive suggestions for addressing identified skills and experience gaps. Additionally, recommend specific courses, certifications, or resume optimization strategies to enhance the applicant''s chances.'
 ]
 
 def onePrompt(jobPost_resume):
@@ -62,3 +65,16 @@ def summarize(comp_gaps_ranked):
     input = "\n\n<Comparison>" + comp_gaps_ranked[0] + "\n<Comparison/> " + "\n<Gaps>" + comp_gaps_ranked[1] + "\n\n<Gaps/> " + "\n<Ranked>" + comp_gaps_ranked[2] + "\n<Ranked/>"
     
     return prompts[7] + input
+
+# For 3-prompt architecture
+def focusAreas(jobPost_resume):
+
+    return prompts[8] + "\n\n<Job Post>" + jobPost_resume[0] + "\n<Job Post/> " + "\n\n<Resume>" + jobPost_resume[1] + "\n<Resume/>"
+
+def idGaps3(areas):
+
+    return prompts[9] + "\n\n<Areas>" + areas[0] + "\n<Areas/>"
+
+def actAdv3(jobPost_resume_gaps):
+
+    return prompts[10]  + "\n\n<Job Post>" + jobPost_resume_gaps[0] + "\n<Job Post/> " + "\n\n<Resume>" + jobPost_resume_gaps[1] + "\n<Resume/>" + "\n\n<Gaps>" + jobPost_resume_gaps[2] + "\n<Gaps/>"

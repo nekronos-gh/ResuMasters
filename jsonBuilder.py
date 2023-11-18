@@ -19,7 +19,7 @@ def getInputs():
 
 def toJSON(prompt, name):
     # Converts the prompt into a json file
-    print(prompt)
+    #print(prompt)
     full = {"instances": [{"prompt": prompt, "max_length": 200}]}
     with open('.\\jsons\\' + name + ".json", "w") as file:
         json.dump(full, file)
@@ -62,4 +62,19 @@ def multiPrompt():
     toJSON(summary, "summary")
     input('Log final response from the LLM in ./responses/multiPrompt.txt. Press enter to end.')
 
-multiPrompt()
+def triPrompt():
+    jobPost, resume = getInputs()
+
+    #Step 1
+    areas = step(prompter.focusAreas, [jobPost, resume])
+
+    #Step 2
+    idGaps = step(prompter.idGaps3, [areas])
+
+    #Step 3
+    advice = step(prompter.actAdv3, [jobPost, resume, idGaps])
+
+    toJSON(advice, "advice")
+    input('Log final response from the LLM in ./responses/triPrompt.txt. Press enter to end.')
+
+triPrompt()

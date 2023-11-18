@@ -1,24 +1,62 @@
-Based on the job posting and the candidate's resume, the following key requirements for the role can be identified:
 
-1. Background in computer science, artificial intelligence, or machine learning, or other comparable subjects.
-2. Proficiency in programming languages and frameworks commonly used in AI research.
-3. Demonstrated passion and interest in the field of artificial intelligence.
-4. Excellent problem-solving and analytical skills.
-5. Strong communication and teamwork abilities.
-6. Prior research experience or relevant internships is a plus.
+Key Requirements from Job Posting:
 
-When comparing the candidate's resume with the job posting, the following skills gaps can be identified:
+Background in computer science, artificial intelligence, or machine learning.
+Proficiency in programming languages and frameworks commonly used in AI research.
+Demonstrated passion and interest in the field of artificial intelligence.
+Excellent problem-solving and analytical skills.
+Strong communication and teamwork abilities.
+Prior research experience or relevant internships are a plus.
+Candidate's Resume Highlights:
 
-1. Lack of experience in artificial intelligence and machine learning.
-2. Limited programming experience in Python and PyTorch.
-3. Lack of research experience in AI or machine learning.
+Education:
 
-To address these skills gaps, the candidate can take the following actions:
+B.S. in Aerospace Engineering (Georgia Institute of Technology)
+Master's Degree in Finance and Data Science (EAE Business School)
+Diplôme d'Ingénieur (ISAE-SUPAERO)
+Work Experience:
 
-1. Take online courses or complete a master's degree in artificial intelligence or machine learning.
-2. Work on personal projects or contribute to open-source projects in AI or machine learning.
-3. Participate in AI or machine learning hackathons or competitions.
-4. Seek out internships or research opportunities in AI or machine learning.
-5. Network with professionals in the AI or machine learning field to learn more about the industry and find opportunities.
+Associate Consultant at GENPACT, LLC.
+Rapid Response Developer and Business Consultant (Current)
+Technical Consultant at ZUORA, INC.
+Salesforce Developer and Administrator
+Electronic Sales Intern at SANTANDER CORPORATE & INVESTMENT BANKING
+Data Analytics intern
+Research Experience:
 
-By taking these actions, the candidate can address the identified skills gaps and improve their chances of being selected for the DeepMind Internship Program.
+Space Systems Design Laboratory (SSDL) - Georgia Tech
+Aerospace Systems Design Laboratory (ASDL) - Georgia Tech
+Leadership:
+
+Outdoor Recreation at Georgia Tech, Caving and Sea Kayaking Instructor
+Skills:
+
+Programming: C++, Java, Python, SQL, Salesforce, Apex, Numpy, Pandas, PyTorch, Zuora.
+Classes: Object-Oriented Programming, Data Structures & Algorithms, Database Mgmt.
+Skills Gaps:
+
+Lack of a formal background in computer science, AI, or machine learning in education.
+Limited mention of experience with AI frameworks in work or educational experiences.
+No explicit mention of a passion for artificial intelligence in the resume.
+The focus on aerospace engineering in education and work experiences may not align directly with the AI field.
+Actionable Advice:
+
+Education:
+
+Consider enrolling in relevant AI or machine learning courses or obtaining certifications to bridge the educational gap.
+Skills Development:
+
+Gain hands-on experience with AI frameworks and technologies through personal projects or online courses.
+Highlight any relevant coursework or projects related to AI on the resume.
+Passion Demonstration:
+
+Showcase a clear passion for AI by including relevant projects, personal initiatives, or contributions to AI communities on the resume.
+Networking and Research:
+
+Attend AI-related events, webinars, or conferences to expand professional networks and stay updated on industry trends.
+Consider contributing to AI research projects or collaborating with professionals in the field.
+Tailoring Resume:
+
+Tailor the resume to emphasize transferable skills and experiences related to AI and machine learning.
+Highlight any research experiences that involve AI applications or methodologies.
+By addressing these gaps, the candidate can enhance their competitiveness for the DeepMind Internship Program and demonstrate a commitment to transitioning into the AI field.
