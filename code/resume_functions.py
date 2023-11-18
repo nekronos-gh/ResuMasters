@@ -15,7 +15,7 @@ def gap_finder(resume, job_desc):
     result = ask_gpt_context(context, promt)
 
     context = context + promt + result
-    promt = prompter.actAdv3(result)
+    promt = prompter.actAdv3()
     result = ask_gpt_context(context, promt)
     
     path_to_folder = "uploads"
