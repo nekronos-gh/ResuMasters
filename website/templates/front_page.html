@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Options</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, p {
+            margin-bottom: 20px;
+        }
+        
+        .header-text {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 20px;
+        }
+        
+        .option-link {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .option-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-text">Build your career, one step at a time.ai</div>
+        <h1>What do you want to do?</h1>
+        <a href="{{ url_for('job_matches') }}" class="option-link">Get Job Suggestions</a>
+        <a href="{{ url_for('skill_improvement') }}" class="option-link">Identify Skill Gaps and Ways to Improve</a>
+    </div>
+</body>
+</html>
