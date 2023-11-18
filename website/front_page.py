@@ -90,7 +90,10 @@ def extract_file_content(filename):
     elif filename.endswith('.txt'):
         # Read text content from a text file
         with open(filename, 'r') as file:
-            return file.read()
+            text_content = file.read()
+            text_content = re.sub(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*','', text_content)
+            text_content = re.sub(r'(\+[0-9]+\s*)?(\([0-9]+\))?[\s0-9\-]+[0-9]+','', text_content)
+            return text_content
     else:
         return 'Unsupported file type'
     
