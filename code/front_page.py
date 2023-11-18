@@ -4,10 +4,7 @@ from docx2txt import process
 import re
 import os
 
-## import resume_functions from backend, knowing backend is in the parent directory
-import sys
-sys.path.append('..')
-from backend.resume_functions import *
+from resume_functions import gap_finder, get_recommendations
 
 app = Flask(__name__)
 

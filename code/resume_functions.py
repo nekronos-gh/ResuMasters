@@ -18,7 +18,7 @@ def gap_finder(resume, job_desc):
     result = ask_gpt_context(context, promt)
     
     path_to_file = "/backend/gaps.txt"
-    with open(path_to_file, 'a') as gaps
+    with open(path_to_file, 'a') as gaps:
        gaps.write(result) 
 
     return path_to_file
@@ -26,7 +26,7 @@ def gap_finder(resume, job_desc):
     
 
 
-def get_recomendations(resume):
+def get_recommendations(resume):
     description = ""
     for job in get_jobs(): 
         # Retrieve the job data
