@@ -1,18 +1,27 @@
 ## Uses the functions from the prompter.py file to generate jsons for the LLM
 
 import prompter
+import json
+
+# write a function ro read a .txt file and return a string containing all lines
+def readTxtFile(filename):
+    file = open(filename, "r")
+    text = file.read()
+    file.close()
+    return text
 
 def getInputs():
     # Gets the inputs from the user
-    jobPost = input("Enter the job post: ")
-    resume = input("Enter the resume: ")
+    input("Confirm that the job post is in jobPost.txt and the resume is in resume.txt. Press enter to continue: ")
+    jobPost = readTxtFile("jobPost.txt")
+    resume = readTxtFile("resume.txt")
     return jobPost, resume
 
 def toJSON(prompt, name):
     # Converts the prompt into a json file
-    json = {"instances": [{"prompt": prompt, "max_length": 200}]}
+    full = {"instances": [{"prompt": prompt, "max_length": 200}]}
     with open(name + ".json", "w") as file:
-        json.dump(json, file)
+        json.dump(full, file)
 
     file.close()
 
@@ -20,14 +29,15 @@ def step(step, params):
     ## Get all the elements of list params, regardless of how many there are:
     prompt = step(params)
     toJSON(prompt, step.__name__)
-    return input('Log response to ' + step.__name__ + 'from the LLM: ')
+    input('Log response to ' + step.__name__ + 'from the LLM in response.txt. Press enter to continue: ')
+    response = readTxtFile("response.txt")
 
 
 ## Things to be executed:
 
 def singlePrompt():
     jobPost, resume = getInputs()
-    onePrompt = prompter.onePrompt(jobPost, resume)
+    onePrompt = prompter.onePrompt([jobPost, resume])
     toJSON(onePrompt, "onePrompt")
 
 def allSteps():
