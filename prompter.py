@@ -17,4 +17,4 @@ def actAdv3():
     return prompts[2]
 
 def coverLetter(jobPost_resume):
-    return prompts[4] + "\n\n<Job Post>" + jobPost_resume[0] + "\n<Job Post/> " + "\n\n<Resume>" + jobPost_resume[1] + "\n<Resume/>"
+    return prompts[3] + "\n\n<Job Post>" + jobPost_resume[0] + "\n<Job Post/> " + "\n\n<Resume>" + jobPost_resume[1] + "\n<Resume/>"
