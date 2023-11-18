@@ -20,10 +20,11 @@ def gap_finder(resume, job_desc):
     
     path_to_folder = "uploads"
     filename = "gap.txt"
+    filename = os.path.join(path_to_folder, filename)
     with open(filename, 'a') as gaps:
        gaps.write(result) 
 
-    return os.path.join(path_to_folder, filename)
+    return filename
     
     
 
