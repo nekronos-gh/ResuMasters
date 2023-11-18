@@ -58,6 +58,9 @@ def display_resume_improvement(resume, job_description):
     # Add logic to display resume improvement suggestions based on file_content and job_description
     improvement_file = gap_finder(resume, job_description)
     
+    print("after calling gap finder")
+    print(improvement_file)
+    
     #return render_template('display_content.html', filename=improvement_file)
     return redirect(url_for('display_content', filename=improvement_file))
     
@@ -124,6 +127,9 @@ def upload(category):
             
             # Extract information from the uploaded file
             resume = extract_file_content(filename)
+            
+            print("debug in upload")
+            print(resume)
             
             return display_resume_improvement(resume, job_description)
 
