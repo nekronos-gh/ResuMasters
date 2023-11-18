@@ -1,6 +1,6 @@
 from openai import AzureOpenAI
 import json
-import os
+import os, sys
 
 
 def load_api_keys_from_json(file_path):
@@ -26,7 +26,21 @@ def ask_gpt(text_query):
                 messages=[{"role": "user", "content": f"{text_query}"}]
                 ).choices[0].message.content
 
-def ask_gpt_context(context="", text_query):
+def do_dall_e(text_query):
+    client = AzureOpenAI(
+        api_version="2023-07-01-preview",
+        api_key=os.environ.get("AZURE_OPENAI_API_KEY"),
+        azure_endpoint=os.environ.get("AZURE_ENDPOINT")
+    )
+    return  client.images.generate(
+                model="dalle3",
+                prompt=text_query,
+                size="1024x1024",
+                quality="standard",
+                n=1
+                ).data[0].url
+
+def ask_gpt_context(text_query, context=""):
     client = AzureOpenAI(
         api_version="2023-07-01-preview",
         azure_endpoint=os.environ.get("AZURE_ENDPOINT")
