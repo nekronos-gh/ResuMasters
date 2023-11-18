@@ -2,3 +2,4 @@ Flask==3.0.0
 gunicorn==20.1.0
 Werkzeug==3.0.1
 PyPDF2==1.26.0
+docx2txt==0.8

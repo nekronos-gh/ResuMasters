@@ -3,13 +3,14 @@ import os
 
 from flask import Flask, render_template, request, redirect, url_for
 from PyPDF2 import PdfReader
+from docx2txt import process
 import re
 #from google.cloud import storage
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf','docx'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
@@ -84,19 +85,24 @@ def extract_file_content(filename):
             text_content = ''
             for page in pdf_reader.pages:
                 text_content += page.extract_text()
-            text_content = re.sub(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*','', text_content)
-            text_content = re.sub(r'(\+[0-9]+\s*)?(\([0-9]+\))?[\s0-9\-]+[0-9]+','', text_content)
+            text_content = scrub_NoEmailLinkedin(text_content)
             return text_content
+    elif filename.endswith('.docx'):
+        text_content = scrub_NoEmailLinkedin(process(filename))
+        return text_content
+    
     elif filename.endswith('.txt'):
         # Read text content from a text file
         with open(filename, 'r') as file:
-            text_content = file.read()
-            text_content = re.sub(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*','', text_content)
-            text_content = re.sub(r'(\+[0-9]+\s*)?(\([0-9]+\))?[\s0-9\-]+[0-9]+','', text_content)
+            text_content = scrub_NoEmailLinkedin(file.read())
             return text_content
     else:
         return 'Unsupported file type'
-    
+
+def scrub_NoEmailLinkedin(content):
+    content = re.sub(r'((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*','', content)
+    content = re.sub(r'(\+[0-9]+\s*)?(\([0-9]+\))?[\s0-9\-]+[0-9]+','', content)
+    return content
 
 @app.route("/")
 def hello_world():
