@@ -30,7 +30,16 @@ def get_recomendations(resume):
     description = ""
     for job in get_jobs(): 
         # Retrieve the job data
+        result = {}
         if "text" in jobs.keys():
-            content = jobs["text"] 
-        else:
+            content = job["text"] 
+        elif "url" in jobs.keys():
             content = scrape_web(jobs["url"]) 
+        else:
+            continue
+        if prompter.match((resume, content)) == "TRUE":
+            description = ask_gpt(f"Please provide me with a description of the following job data: {content}") 
+            yield {
+                "url": job["url"] if "url" in jobs.keys() else None,
+                "description": description,
+            }
