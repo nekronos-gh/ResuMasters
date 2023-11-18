@@ -4,6 +4,11 @@ from docx2txt import process
 import re
 import os
 
+## import resume_functions from backend, knowing backend is in the parent directory
+import sys
+sys.path.append('..')
+from backend.resume_functions import *
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'uploads'
