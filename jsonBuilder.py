@@ -10,7 +10,7 @@ def getInputs():
 
 def toJSON(prompt, name):
     # Converts the prompt into a json file
-    json = {"prompt": prompt}
+    json = {"instances": [{"prompt": prompt, "max_length": 200}]}
     with open(name + ".json", "w") as file:
         json.dump(json, file)
 
