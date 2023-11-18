@@ -1,0 +1,48 @@
+EDUCATION
+Georgia Institute of Technology Atlanta, GA
+B.S. in Aerospace Engineering
+• GPA: 3.56
+• Coursework: Computing for Engineers, Object-Oriented Programming, Data Structures & Algorithms.
+EAE Business School Madrid, Spain
+Master’s Degree in Finance and Data Science October 2020 – June 2021
+• Sponsored on scholarship by Bank Banco Santander for being among the most promising interns.
+• Coursework: Database Management, Machine Learning.
+Institut Supérieur de l’Aéronautique et l’Espace (ISAE-SUPAERO) Toulouse, France
+Diplôme d’Ingénieur (B.S. in Aerospace Engineering curriculum) Spring 2020
+• Diplôme d’Ingénieur curriculum, taking Aerospace Engineering classes in French.
+• Coursework: Machine Learning for Aerospace, Control Theory for Orbital Mechanics.
+WORK EXPERIENCE ______________ ______ 
+GENPACT, LLC. Associate Consultant Atlanta, GA
+Rapid Response Developer and Business Consultant February 2023 – Present
+• Developed tens of automated task flows to manage and process client data.
+• Conciliated 100,000+ errors while integrating client data.
+• Imparted training to clients on the use of new Data Engineering tools.
+• Worked with clients to improve their strategies and processes focusing on digital transformation.
+ZUORA, INC. Technical Consultant Atlanta, GA
+Salesforce Developer and Administrator June 2022 – July 2022
+• Fixed 20+ bugs in previous third-party Apex solution package, optimizing client experience.
+• Wrote and updated 8 new documentation pages, ensuring around 50% reduction in setup time for new onboards.
+SANTANDER CORPORATE & INVESTMENT BANKING, Electronic Sales Intern Boadilla del Monte, Spain
+Data Analytics intern at Banco Santander’s global headquarters September 2020 – August 2021
+• Optimized daily data processing and sharing procedures – reduced required man-hours by 99%.
+• Used Salesforce to keep track of and classify 1000+ clients, flagging potential churns.
+• Increased RFQs in target Credit product types by 25% through Machine Learning recommender algorithms.
+• Used Salesforce to increase client contact time for salesmen by 30%.
+RESEARCH _____________________
+Space Systems Design Laboratory (SSDL) – Georgia Tech Atlanta, GA
+Real-Time Terrain Mapping for Landing via Neural Networks August 2019 – December 2019
+Developed a Deep Learning algorithm for Processing Elevation Data, Hazard Detection, and Piloting Lunar Landers.
+• Researched and identified SOTA methods to be substituted by faster Deep Learning algorithms.
+• Redesigned SegNet computer vision algorithms to locate safe and hazardous landing spots.
+Aerospace Systems Design Laboratory (ASDL) – Georgia Tech Atlanta, GA
+Hyperloop Exploration for Risk Management and Environment Simulation August 2018 – May 2019
+Worked with graduate students to advice a Laboratory’s external client on the viability of Hyperloop transportation
+• Improved State-of-the-Art demand-estimation algorithm, reducing execution time by 90%.
+• Estimated 23.5 years ROI for Undersea Scandinavian case study.
+LEADERSHIP ______________
+Outdoor Recreation at Georgia Tech, Caving and Sea Kayaking Instructor November 2019 – Present
+• Led 27 training trips to increase the skill base and safety of our organization.
+• Acquired Wilderness First Responder first-aid training to help accident victims.
+SKILLS _______
+Programming: C++, Java, Python, SQL, Salesforce, Apex, Numpy, Pandas, PyTorch, Zuora.
+Classes: Object-Oriented Programming, Data Structures & Algorithms, Database Mgmt
