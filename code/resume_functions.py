@@ -1,4 +1,6 @@
 import prompter
+import os
+
 from open_interface import ask_gpt, ask_gpt_context
 from hacker_news_scraper import get_jobs, scrape_web
 
@@ -16,11 +18,12 @@ def gap_finder(resume, job_desc):
     promt = prompter.actAdv3(result)
     result = ask_gpt_context(context, promt)
     
-    path_to_file = "/backend/gaps.txt"
-    with open(path_to_file, 'a') as gaps:
+    path_to_folder = "uploads"
+    filename = "gap.txt"
+    with open(filename, 'a') as gaps:
        gaps.write(result) 
 
-    return path_to_file
+    return os.path.join(path_to_folder, filename)
     
     
 
