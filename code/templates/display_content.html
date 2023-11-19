@@ -23,9 +23,64 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1, h2, p {
+        /* Basic styling for unordered lists */
+        ul {
+          list-style: none;
+          padding: 0;
+        }
+
+        ul li {
+          margin-bottom: 5px;
+          padding-left: 20px;
+          position: relative;
+          display: inline; /* Add this line */
+        }
+
+        ul li:before {
+          content: '\2022'; /* Unicode character for a bullet point */
+          color: #3498db;
+          font-weight: bold;
+          position: absolute;
+          left: 0;
+        }
+
+        /* Basic styling for ordered lists */
+        ol {
+          list-style: none;
+          counter-reset: item;
+          padding: 0;
+        }
+
+        ol li {
+          counter-increment: item;
+          margin-bottom: 5px;
+          padding-left: 30px;
+          position: relative;
+        }
+
+        ol li:before {
+          content: counter(item);
+          color: #3498db;
+          font-weight: bold;
+          position: absolute;
+          left: 0;
+        }
+
+
+        h1, h2{
             text-align: center;
             padding: 20px;
+        }
+
+        h1, h2{
+            text-align: center;
+        }
+
+        p {
+          font-size: 14px;
+          line-height: 1.6;
+          color: #333;
+          margin-bottom: 10px;
         }
 
         form {
@@ -60,7 +115,7 @@
         {% endif %}
         {% if file_content %}
             <h2>File Content:</h2>
-            <pre>{{ file_content }}</pre>
+            <pre>{{ file_content | safe}}</pre>
         {% endif %}
         
     </div>

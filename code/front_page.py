@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from PyPDF2 import PdfReader
 from docx2txt import process
 from open_interface import load_api_keys_from_json
+import markdown
 import re
 import os
 
@@ -179,6 +180,7 @@ def display_content(relative_path):
     
     file_name = os.path.basename(relative_path)
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+    markdown.markdownFromFile(input=file_path, output=file_path)
     file_content = extract_file_content(file_path)
     
     print("in display content")
