@@ -62,7 +62,7 @@ def display_resume_improvement(resume, job_description):
     print(improvement_file)
     
     #return render_template('display_content.html', filename=improvement_file)
-    return redirect(url_for('display_content', filename=improvement_file))
+    return redirect(url_for('display_content', relative_path=improvement_file))
     
 @app.route('/')
 def front_page():
@@ -128,8 +128,8 @@ def upload(category):
             # Extract information from the uploaded file
             resume = extract_file_content(filename)
             
-            print("debug in upload")
-            print(resume)
+            #print("debug in upload")
+            #print(resume)
             
             return display_resume_improvement(resume, job_description)
 
@@ -139,19 +139,22 @@ def upload(category):
         return render_template('upload_page_skill_suggest.html', message='Invalid file format')
         
         
-@app.route('/display_content/<filename>')
-def display_content(filename):
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    #job_description_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'job_description.txt')
+
     
+@app.route('/display_content/<path:relative_path>')
+def display_content(relative_path):
     # Extract information from the uploaded file
+    #file_content = extract_file_content_relative_path(relative_path)
+    
+    file_name = os.path.basename(relative_path)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
     file_content = extract_file_content(file_path)
     
-    # Read job description from the file
-    #with open(job_description_filename, 'r') as job_file:
-        #job_description = job_file.read()
+    print("in display content")
+    print(file_content)
 
     return render_template('display_content.html', file_content=file_content)
+
 
 
 

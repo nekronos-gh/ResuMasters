@@ -36,6 +36,7 @@ website/uploads
 */.DS_Store
 .DS_Store
 __pycache__/
+code/gap.txt
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
