@@ -69,21 +69,23 @@ def display_job_suggestions(resume):
 
 def display_job_suggestions(resume):
     # Add logic to display resume improvement suggestions based on file_content and job_description
-    
-    session['recommendations'] =  get_recommendations(resume)
-    
     return redirect(url_for('display_jobs'))
     
     #return render_template('display_content.html', filename=improvement_file)
     #return redirect(url_for('display_content', relative_path=suggestions))
 
+last_resume = None
+last_desc = None
 def display_resume_improvement(resume, job_description):
     # Add logic to display resume improvement suggestions based on file_content and job_description
+    #return render_template('display_content.html', filename=improvement_file)
+    global last_resume
+    global last_desc
+
     improvement_file = gap_finder(resume, job_description)
     
-    session['resume'] =  resume
-    session['job_description'] =  job_description
-    #return render_template('display_content.html', filename=improvement_file)
+    last_resume =  resume
+    last_desc =  job_description
     return redirect(url_for('display_content', relative_path=improvement_file, title="Resume gaps"))
 
 def display_cover_letter(resume,job_description):
@@ -351,7 +353,9 @@ def convert():
 
 @app.route('/projects')
 def display_projects():
-    path = get_projects(session.get("resume"), session.get("job_description"))
+    global last_resume
+    global last_desc
+    path = get_projects(last_resume, last_desc)
     file_name = os.path.basename(path)
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
     markdown.markdownFromFile(input=file_path, output=file_path)
@@ -360,7 +364,8 @@ def display_projects():
 
 @app.route('/display_jobs')
 def display_jobs():
-    suggestions = session.get("recommendations")
+    
+    suggestions = get_recommendations(resume)
     title = "Suggested Jobs"
     if not suggestions or len(suggestions) == 0:
         suggestions = [[],0]
