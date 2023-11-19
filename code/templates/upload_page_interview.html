@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            background-image: url('your-background-image.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, p {
+            text-align: center;
+            padding: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        
+        label, textarea, input {
+            display: block;
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            margin-left: 55px;
+        }
+        
+        input {
+            margin-left: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Upload</h1>
+        <form action="/upload/sample_interview" method="post" enctype="multipart/form-data">
+            <label for="job_description">Job Description:</label>
+            <textarea name="job_description" rows="4" cols="60"></textarea>
+            <button type="submit">Upload</button>
+        </form>
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

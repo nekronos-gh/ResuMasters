@@ -79,6 +79,17 @@ def display_resume_improvement(resume, job_description):
 def display_cover_letter(resume,job_description):
     cover_letter_file = write_cover(resume,job_description)
     return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter"))
+    
+def get_interview_questions(job_description):
+
+    return "we are placeholder for now"
+    
+
+    # Add logic to display resume improvement suggestions based on file_content and job_description
+    #improvement_file = gap_finder(resume, job_description)
+    
+
+    #return redirect(url_for('display_content', relative_path=improvement_file))
 
 @app.route('/')
 def front_page():
@@ -98,6 +109,11 @@ def skill_improvement():
 def cover_letter():
     #return render_template('upload_page_skill_suggest.html')
     return redirect(url_for('upload', category='cover_letter'))
+    
+@app.route('/sample_interview')
+def sample_interview():
+    #return render_template('upload_page_skill_suggest.html')
+    return redirect(url_for('upload', category='sample_interview'))
 
 @app.route('/record_audio')
 def record_audio():
@@ -124,10 +140,6 @@ def transcribe_audio(response):
     # os.remove(temp_audio_path)
 
     return jsonify({'transcription': transcription})
-
-@app.route('/audioresult')
-def audio_result():
-    return 'intentionally left blank'
     
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
@@ -219,6 +231,20 @@ def upload(category):
             #return redirect(url_for('display_content_skill', filename=file.filename))
 
         return render_template('upload_page_cover_letter.html', message='Invalid file format')
+        
+    if category == "sample_interview":
+            
+        if 'file' not in request.files:
+            return render_template('upload_page_interview.html', message='Upload your files here')
+
+        job_description = request.form['job_description']
+        
+             # Save job description in a separate file
+        job_description_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'job_description.txt')
+        with open(job_description_filename, 'w') as job_file:
+            job_file.write(job_description)
+            
+        return get_interview_questions(job_description)
         
         
 
