@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from PyPDF2 import PdfReader
 from docx2txt import process
 from open_interface import load_api_keys_from_json
-from google.cloud import texttospeech
+# from google.cloud import texttospeech
 import wave
 import markdown
 import re
@@ -103,7 +103,7 @@ def cover_letter():
 def record_audio():
     return render_template('audiorec.html')
 
-@app.route('/transcribe<response>', methods=['POST'])
+@app.route('/transcribe/<response>', methods=['POST'])
 def transcribe_audio(response):
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'})
@@ -121,7 +121,7 @@ def transcribe_audio(response):
     # put google code thing here
     transcription = 'placeholder blah blah'
     # Remove the temporary audio file
-    os.remove(temp_audio_path)
+    # os.remove(temp_audio_path)
 
     return jsonify({'transcription': transcription})
 

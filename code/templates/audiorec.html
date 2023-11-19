@@ -88,7 +88,7 @@
                         var formData = new FormData();
                         formData.append('audio', audioBlob);
 
-                        fetch('/transcribe'.concat(number), {
+                        fetch('/transcribe/'.concat(number), {
                             method: 'POST',
                             body: formData
                         })
