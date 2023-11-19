@@ -94,7 +94,7 @@ def get_interview_questions_prompt(resume, job_desc):
 
 def get_interview_performance(context, questions, answers):
     # Interact with chatGPT
-    promt = prompter.performance((context, questions, answers))
+    promt = prompter.performance(context, questions, answers)
     result = ask_gpt(promt)
     
     path_to_folder = "uploads"

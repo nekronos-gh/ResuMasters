@@ -7,6 +7,8 @@ import markdown
 import re
 import os
 import pygame
+import pyaudio
+p=pyaudio.PyAudio()
 
 from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance, get_projects
 import gcloud_stt
@@ -175,9 +177,8 @@ def button_click(row, button):
 def create_text(row):
 
     file = "response" + str(row) + "_recording.wav"
-    
     filecontent = gcloud_stt.speech_to_text(file)
-    
+    print('speech to text test' + filecontent)
     filename = "answer" + str(row) + ".txt"
     
     filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -224,11 +225,15 @@ def display_interview_results():
     answers = ""
     for i in range(1,4):
         file = "answer" + str(i) + ".txt"
+        file = os.path.join(app.config['UPLOAD_FOLDER'],file)
         filecontent = extract_file_content(file)
         answers = answers + "/n" + filecontent
+    print('ans:'+answers)
         
     context = session.get("context")
+    print('cont'+context)
     questions = session.get("questions")
+    print('qns'+questions)
     
     interview_results = get_interview_performance(context, questions, answers)
 
