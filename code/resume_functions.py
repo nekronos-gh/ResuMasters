@@ -63,3 +63,31 @@ def write_cover(resume, job_desc):
        cover.write(result) 
 
     return filename
+
+def get_interview_questions(resume, job_desc):
+    # Interact with chatGPT
+    promt = prompter.interview((job_desc, resume))
+    result = ask_gpt(promt)
+    
+    path_to_folder = "uploads"
+    filename = "interview_q.txt"
+    filename = os.path.join(path_to_folder, filename)
+    with open(filename, 'w') as cover:
+       cover.write(result) 
+
+    return (promt, filename)
+
+def get_interview_performace(context, questions, answers):
+    # Interact with chatGPT
+    promt = prompter.performance((context, questions, answers))
+    result = ask_gpt(promt)
+    
+    path_to_folder = "uploads"
+    filename = "interview_perf.txt"
+    filename = os.path.join(path_to_folder, filename)
+    with open(filename, 'w') as cover:
+       cover.write(result) 
+
+    return filename
+
+    
