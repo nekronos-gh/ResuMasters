@@ -7,7 +7,7 @@ import wave
 import markdown
 import re
 import os
-import pyaudio
+#import pyaudio
 import pygame
 
 from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance, get_projects
@@ -15,9 +15,11 @@ import gcloud_stt
 import gcloud_tts
 
 app = Flask(__name__)
+'''
 p = pyaudio.PyAudio()
 recording_status = {1: False, 2: False, 3: False}
 pygame.mixer.init()
+'''
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf','docx'}
@@ -150,7 +152,7 @@ def sample_interview():
 @app.route('/record_resp')
 def record_resp():
     return render_template('response_rec.html')
-
+'''
 # Route to handle button clicks
 @app.route('/button_click/<int:row>/<int:button>')
 def button_click(row, button):
@@ -201,7 +203,7 @@ def save_audio(row):
     wf.setframerate(44100)
     wf.writeframes(b''.join(frames))
     wf.close()
-    
+'''
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
 
@@ -361,8 +363,7 @@ def display_jobs():
     suggestions = session.get("recommendations")
     title = "Suggested Jobs"
     if not suggestions or len(suggestions) == 0:
-        suggestions[0] = []
-        suggestions[1] = 0
+        suggestions = [[],0]
 
     return render_template('display_jobs.html', job_list=suggestions[0], number=suggestions[1], title="No suitable jobs found")
 

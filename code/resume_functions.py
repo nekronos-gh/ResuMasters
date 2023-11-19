@@ -64,9 +64,7 @@ def write_cover(resume, job_desc):
 
     return filename
 
-<<<<<<< Updated upstream
-def get_interview_questions_prompt(resume, job_desc):
-=======
+
 def get_projects(resume, job_desc):
     # Interact with chatGPT
     promt = prompter.proposeProject((job_desc, resume))
@@ -80,8 +78,8 @@ def get_projects(resume, job_desc):
 
     return filename
 
-def get_interview_questions(resume, job_desc):
->>>>>>> Stashed changes
+def get_interview_questions_prompt(resume, job_desc):
+
     # Interact with chatGPT
     promt = prompter.interview((job_desc, resume))
     result = ask_gpt(promt)
