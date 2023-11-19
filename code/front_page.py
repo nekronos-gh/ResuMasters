@@ -8,10 +8,15 @@ import markdown
 import re
 import os
 import torchaudio
+import pyaudio
+import pygame
 
 from resume_functions import gap_finder, get_recommendations, write_cover
 
 app = Flask(__name__)
+p = pyaudio.PyAudio()
+recording_status = {1: False, 2: False, 3: False}
+pygame.mixer.init()
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf','docx'}
@@ -81,7 +86,7 @@ def display_cover_letter(resume,job_description):
     return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter"))
     
 def get_interview_questions(job_description):
-
+    
     return "we are placeholder for now"
     
 
@@ -115,31 +120,60 @@ def sample_interview():
     #return render_template('upload_page_skill_suggest.html')
     return redirect(url_for('upload', category='sample_interview'))
 
-@app.route('/record_audio')
-def record_audio():
-    return render_template('audiorec.html')
+@app.route('/record_resp')
+def record_resp():
+    return render_template('response_rec.html')
 
-@app.route('/transcribe/<response>', methods=['POST'])
-def transcribe_audio(response):
-    if 'audio' not in request.files:
-        return jsonify({'error': 'No audio file provided'})
+# Route to handle button clicks
+@app.route('/button_click/<int:row>/<int:button>')
+def button_click(row, button):
+    global recording_status
 
-    audio_file = request.files['audio']
+    if button == 1:  # Play audio button
+        play_audio(row)
+        status = f"Playing audio for Row {row}"
+    elif button == 2:  # Start recording button
+        recording_status[row] = True
+        start_audio(row)
+        status = f"Recording started for Row {row}"
+    elif button == 3:  # Stop recording button
+        recording_status[row] = False
+        save_audio(row)
+        status = f"Recording stopped for Row {row}"
 
-    # Save the audio file temporarily
-    temp_audio_path = os.path.join(app.config['UPLOAD_FOLDER'], f'temp_audio_{response}.wav')
-    audio_file.save(temp_audio_path)
+    return {"status": status}
 
-    # Load the audio file
-    waveform, sample_rate = torchaudio.load(temp_audio_path)
-    print(waveform)
-    print(sample_rate)
-    # put google code thing here
-    transcription = 'placeholder blah blah'
-    # Remove the temporary audio file
-    # os.remove(temp_audio_path)
+def play_audio(row):
+    # Generate the filename for the audio file
+    filename = os.path.join(app.config['UPLOAD_FOLDER'],f"q{row}_tts.wav")
 
-    return jsonify({'transcription': transcription})
+    # Load and play the audio file
+    pygame.mixer.music.load(filename)
+    pygame.mixer.music.play()
+
+def start_audio(row):
+     # Implement code to save the recorded audio to a wav file for the specified row
+    global stream
+    global frames
+    global filename
+    filename = os.path.join(app.config['UPLOAD_FOLDER'],f"response{row}_recording.wav")
+    frames = []  # List to store audio frames
+    stream = p.open(format=pyaudio.paInt16, channels=1, rate=44100, input=True, frames_per_buffer=1024)
+    while recording_status[row]:
+        data = stream.read(1024)
+        frames.append(data)
+
+def save_audio(row):
+    stream.stop_stream()
+    stream.close()
+
+    # Save the recorded audio to a wav file
+    wf = wave.open(filename, 'wb')
+    wf.setnchannels(1)
+    wf.setsampwidth(pyaudio.PyAudio().get_sample_size(pyaudio.paInt16))
+    wf.setframerate(44100)
+    wf.writeframes(b''.join(frames))
+    wf.close()
     
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
