@@ -64,7 +64,7 @@ def write_cover(resume, job_desc):
 
     return filename
 
-def get_interview_questions(resume, job_desc):
+def get_interview_questions_prompt(resume, job_desc):
     # Interact with chatGPT
     promt = prompter.interview((job_desc, resume))
     result = ask_gpt(promt)
@@ -77,7 +77,7 @@ def get_interview_questions(resume, job_desc):
 
     return (promt, filename)
 
-def get_interview_performace(context, questions, answers):
+def get_interview_performance(context, questions, answers):
     # Interact with chatGPT
     promt = prompter.performance((context, questions, answers))
     result = ask_gpt(promt)

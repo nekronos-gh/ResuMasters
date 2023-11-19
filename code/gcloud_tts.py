@@ -1,5 +1,8 @@
 from google.cloud import texttospeech
 import wave
+import os
+
+UPLOAD_FOLDER = 'uploads'
 
 def text_to_speech(input_text, output_file='output.wav'):
     client = texttospeech.TextToSpeechClient()
@@ -19,6 +22,8 @@ def text_to_speech(input_text, output_file='output.wav'):
     response = client.synthesize_speech(
         input=synthesis_input, voice=voice, audio_config=audio_config
     )
+    
+    output_file = os.path.join(UPLOAD_FOLDER, output_file)
 
     with wave.open(output_file, 'w') as wave_file:
         wave_file.setnchannels(1)

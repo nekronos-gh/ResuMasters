@@ -11,7 +11,9 @@ import torchaudio
 import pyaudio
 import pygame
 
-from resume_functions import gap_finder, get_recommendations, write_cover
+from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance
+import gcloud_stt
+import gcloud_tts
 
 app = Flask(__name__)
 p = pyaudio.PyAudio()
@@ -85,8 +87,31 @@ def display_cover_letter(resume,job_description):
     cover_letter_file = write_cover(resume,job_description)
     return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter"))
     
-def get_interview_questions(job_description):
+def get_interview_questions(resume, job_description):
+
+    context, filename = get_interview_questions_prompt(resume, job_description)
     
+    session['context'] = context
+    
+    questions = extract_file_content(filename)
+    
+    #print("interview questions")
+    #print(questions)
+    
+    # Use regular expressions to extract questions
+    questions_parsed = [re.sub(r'\bQuestion\b', '', part).strip() for part in re.split(r'(?=\bQuestion\b)', questions)][1:]
+    
+    #print(questions_parsed)
+
+    # Print the separated questions
+    for i, question in enumerate(questions_parsed, start=1):
+        output = "question" + str(i) + ".wav"
+        question = question.split(')')[0]
+        question = question.split(':')[1]
+        gcloud_tts.text_to_speech(question, output_file=output)
+        print(f"Question {i}: {question.strip()}")
+
+
     return "we are placeholder for now"
     
 
@@ -271,6 +296,7 @@ def upload(category):
         if 'file' not in request.files:
             return render_template('upload_page_interview.html', message='Upload your files here')
 
+        file = request.files['file']
         job_description = request.form['job_description']
         
              # Save job description in a separate file
@@ -278,7 +304,19 @@ def upload(category):
         with open(job_description_filename, 'w') as job_file:
             job_file.write(job_description)
             
-        return get_interview_questions(job_description)
+        if file.filename == '':
+            return render_template('upload_page_interview.html', message='No selected file')
+
+        if file and allowed_file(file.filename):
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+            
+            # Extract information from the uploaded file
+            resume = extract_file_content(filename)
+            
+            return get_interview_questions(resume, job_description)
+            
+        return render_template('upload_page_interview.html', message='Invalid file format')
         
         
 
