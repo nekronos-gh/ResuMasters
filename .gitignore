@@ -30,7 +30,7 @@ share/python-wheels/
 MANIFEST
 
 # upload dir
-website/uploads
+code/uploads
 
 #artifacts
 */.DS_Store
