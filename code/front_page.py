@@ -69,7 +69,7 @@ def display_job_suggestions(resume):
 def display_job_suggestions(resume):
     # Add logic to display resume improvement suggestions based on file_content and job_description
     
-    session['recommendations'] =  get_recommendations(resume)
+    session['resume'] =  resume
     
     return redirect(url_for('display_jobs'))
     
@@ -83,11 +83,11 @@ def display_resume_improvement(resume, job_description):
     session['resume'] =  resume
     session['job_description'] =  job_description
     #return render_template('display_content.html', filename=improvement_file)
-    return redirect(url_for('display_content', relative_path=improvement_file, title="Resume gaps"))
+    return redirect(url_for('display_content', relative_path=improvement_file, title="Resume gaps", button="true"))
 
 def display_cover_letter(resume,job_description):
     cover_letter_file = write_cover(resume,job_description)
-    return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter"))
+    return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter", button="false"))
     
 def get_interview_questions(resume, job_description):
 
@@ -358,7 +358,13 @@ def display_content(relative_path):
     markdown.markdownFromFile(input=file_path, output=file_path)
     file_content = extract_file_content(file_path)
     
-    return render_template('display_content.html', file_content=file_content, title = request.args['title'])
+    if request.args['button'] == "true":
+    
+        return render_template('display_content.html', file_content=file_content, title = request.args['title'])
+        
+    else:
+    
+        return render_template('display_content_no_button.html', file_content=file_content, title = request.args['title'])
     
 
 '''
@@ -379,11 +385,11 @@ def display_projects():
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
     markdown.markdownFromFile(input=file_path, output=file_path)
     file_content = extract_file_content(file_path)
-    return render_template('display_content.html',file_content=file_content, title="Projects")
+    return render_template('display_content.html',file_content=file_content, title="Projects", button="false")
 
 @app.route('/display_jobs')
 def display_jobs():
-    suggestions = session.get("recommendations")
+    suggestions = get_recommendations(session.get("resume"))
     title = "Suggested Jobs"
     if not suggestions or len(suggestions) == 0:
         suggestions = [[],0]
