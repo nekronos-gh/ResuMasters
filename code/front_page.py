@@ -54,6 +54,29 @@ def display_job_suggestions(resume):
     return render_template('job_suggestions.html', suggestions=suggestions)
 '''
 
+def display_job_suggestions(resume):
+    # Add logic to display resume improvement suggestions based on file_content and job_description
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    for suggestion in get_recommendations(resume):
+        print("suggestion:")
+        print(suggestion)
+        
+    
+        return redirect(url_for('display_content', relative_path=suggestion))
+    
+
+    
+    #return render_template('display_content.html', filename=improvement_file)
+    #return redirect(url_for('display_content', relative_path=suggestions))
+
 def display_resume_improvement(resume, job_description):
     # Add logic to display resume improvement suggestions based on file_content and job_description
     improvement_file = gap_finder(resume, job_description)
@@ -78,10 +101,14 @@ def skill_improvement():
     #return render_template('upload_page_skill_suggest.html')
     return redirect(url_for('upload', category='skill_improvement'))
     
+@app.route('/cover_letter')
+def cover_letter():
+    #return render_template('upload_page_skill_suggest.html')
+    return redirect(url_for('upload', category='cover_letter'))
+    
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
 
-    '''
     if category == "job_matches":
     
         if 'file' not in request.files:
@@ -97,14 +124,18 @@ def upload(category):
             file.save(filename)
             
             # Extract information from the uploaded file
-            file_content = extract_file_content(filename)
-
+            resume = extract_file_content(filename)
             
-            return redirect(url_for('display_content', filename=file.filename))
+            print("debug in upload")
+            print(resume)
+            
+            return display_job_suggestions(resume)
+            
+            #return redirect(url_for('display_content', filename=file.filename))
 
         return render_template('upload_page_job_suggest.html', message='Invalid file format')
-    '''
-    
+        
+        
     if category == "skill_improvement":
             
         if 'file' not in request.files:
