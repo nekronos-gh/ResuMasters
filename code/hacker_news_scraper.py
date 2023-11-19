@@ -26,9 +26,4 @@ def get_jobs():
     session = HTMLSession()
     jobs = fetch_json_data(jobs_url)
     for job in jobs:
-        item = fetch_json_data(item_url.format(job))
-        if "text" in item.keys():
-            yield item["text"]
-        elif "url" in item.keys():
-            yield scrape_web(item["url"])
-        break
+        yield fetch_json_data(item_url.format(job))

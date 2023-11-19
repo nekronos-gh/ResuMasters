@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from PyPDF2 import PdfReader
 from docx2txt import process
 from open_interface import load_api_keys_from_json
@@ -16,6 +16,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf','docx'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
+app.secret_key = "162de504fbde477d81799c7edecbf9c73e1eda932104548bc64caa8f1d0b9cbf"
 load_api_keys_from_json("keys.json")
 
 
@@ -59,22 +60,9 @@ def display_job_suggestions(resume):
 def display_job_suggestions(resume):
     # Add logic to display resume improvement suggestions based on file_content and job_description
     
+    session['recommendations'] =  get_recommendations(resume)
     
-    
-    
-    
-    
-    
-    
-    
-    for suggestion in get_recommendations(resume):
-        print("suggestion:")
-        print(suggestion)
-        
-    
-        return redirect(url_for('display_content', relative_path=suggestion))
-    
-
+    return redirect(url_for('display_jobs'))
     
     #return render_template('display_content.html', filename=improvement_file)
     #return redirect(url_for('display_content', relative_path=suggestions))
@@ -82,9 +70,6 @@ def display_job_suggestions(resume):
 def display_resume_improvement(resume, job_description):
     # Add logic to display resume improvement suggestions based on file_content and job_description
     improvement_file = gap_finder(resume, job_description)
-    
-    print("after calling gap finder")
-    print(improvement_file)
     
     #return render_template('display_content.html', filename=improvement_file)
     return redirect(url_for('display_content', relative_path=improvement_file))
@@ -162,8 +147,6 @@ def upload(category):
             # Extract information from the uploaded file
             resume = extract_file_content(filename)
             
-            print("debug in upload")
-            print(resume)
             
             return display_job_suggestions(resume)
             
@@ -194,9 +177,6 @@ def upload(category):
             
             # Extract information from the uploaded file
             resume = extract_file_content(filename)
-            
-            #print("debug in upload")
-            #print(resume)
             
             return display_resume_improvement(resume, job_description)
 
@@ -251,12 +231,14 @@ def display_content(relative_path):
     markdown.markdownFromFile(input=file_path, output=file_path)
     file_content = extract_file_content(file_path)
     
-    print("in display content")
-    print(file_content)
 
     return render_template('display_content.html', file_content=file_content)
 
 
+@app.route('/display_jobs')
+def display_jobs():
+    suggestions = session.get("recommendations")
+    return render_template('display_jobs.html', job_list=suggestions[0], number=suggestions[1])
 
 
 if __name__ == "__main__":

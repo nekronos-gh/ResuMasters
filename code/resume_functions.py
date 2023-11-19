@@ -29,21 +29,27 @@ def gap_finder(resume, job_desc):
 
 def get_recommendations(resume):
     description = ""
+    result = []
+    n = 0
     for job in get_jobs(): 
         # Retrieve the job data
-        result = {}
         if "text" in job.keys():
             content = job["text"] 
         elif "url" in job.keys():
             content = scrape_web(job["url"]) 
         else:
             continue
-        if prompter.match((resume, content)) == "TRUE":
+        answer = ask_gpt(prompter.match((resume, content))) 
+        if answer[-4:] == "TRUE":
             description = ask_gpt(f"Please provide me with a description of the following job data: {content}") 
-            yield {
+            result.append({
+                "title": job["title"],
                 "url": job["url"] if "url" in job.keys() else None,
                 "description": description,
-            }
+            })
+            if len(result) == 5:
+               break
+    return (result, n)
 
 def write_cover(resume, job_desc):
     # Interact with chatGPT
