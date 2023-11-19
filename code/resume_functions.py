@@ -64,7 +64,24 @@ def write_cover(resume, job_desc):
 
     return filename
 
+<<<<<<< Updated upstream
 def get_interview_questions_prompt(resume, job_desc):
+=======
+def get_projects(resume, job_desc):
+    # Interact with chatGPT
+    promt = prompter.proposeProject((job_desc, resume))
+    result = ask_gpt(promt)
+    
+    path_to_folder = "uploads"
+    filename = "proposed_projects.txt"
+    filename = os.path.join(path_to_folder, filename)
+    with open(filename, 'w') as cover:
+       cover.write(result) 
+
+    return filename
+
+def get_interview_questions(resume, job_desc):
+>>>>>>> Stashed changes
     # Interact with chatGPT
     promt = prompter.interview((job_desc, resume))
     result = ask_gpt(promt)

@@ -7,11 +7,10 @@ import wave
 import markdown
 import re
 import os
-import torchaudio
 import pyaudio
 import pygame
 
-from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance
+from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance, get_projects
 import gcloud_stt
 import gcloud_tts
 
@@ -80,6 +79,8 @@ def display_resume_improvement(resume, job_description):
     # Add logic to display resume improvement suggestions based on file_content and job_description
     improvement_file = gap_finder(resume, job_description)
     
+    session['resume'] =  resume
+    session['job_description'] =  job_description
     #return render_template('display_content.html', filename=improvement_file)
     return redirect(url_for('display_content', relative_path=improvement_file, title="Resume gaps"))
 
@@ -129,6 +130,7 @@ def front_page():
 def job_matches():
     #return render_template('upload_page_job_suggest.html')
     return redirect(url_for('upload', category='job_matches'))
+
 
 @app.route('/skill_improvement')
 def skill_improvement():
@@ -345,6 +347,14 @@ def convert():
 '''
 
 
+@app.route('/projects')
+def display_projects():
+    path = get_projects(session.get("resume"), session.get("job_description"))
+    file_name = os.path.basename(path)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+    markdown.markdownFromFile(input=file_path, output=file_path)
+    file_content = extract_file_content(file_path)
+    return render_template('display_content.html',file_content=file_content, title="Projects")
 
 @app.route('/display_jobs')
 def display_jobs():
