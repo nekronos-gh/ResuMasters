@@ -22,6 +22,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-top: 20px;
         }
 
         h1, h2, p {
@@ -71,7 +72,7 @@
         var mediaRecorder;
         var audioChunks = [];
 
-        function startRecording() {
+        function startRecording(number) {
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(function (stream) {
                     mediaRecorder = new MediaRecorder(stream);
@@ -87,7 +88,7 @@
                         var formData = new FormData();
                         formData.append('audio', audioBlob);
 
-                        fetch('/transcribe', {
+                        fetch('/transcribe'.concat(number), {
                             method: 'POST',
                             body: formData
                         })
@@ -96,10 +97,8 @@
                             console.log('Transcription:', data.transcription);
                             // Display the transcription in your UI
                             // window.location.href = '/audioresult?transcription=' + encodeURIComponent(data.transcription);
-                            window.location.href = '/audioresult';
+                            // window.location.href = '/audioresult';
                         });
-                        
-                        audioChunks = [];
                     };
 
                     mediaRecorder.start();
@@ -117,8 +116,15 @@
 <body>
     <div class="container">
         <h1>Record Interview Answers</h1>
-        <button onclick="startRecording()">Start Recording</button>
+        <button onclick="startRecording('response1')">Record Response 1</button>
         <button onclick="stopRecording()">Stop Recording</button>
+        <br>
+        <button onclick="startRecording('response2')">Record Response 2</button>
+        <button onclick="stopRecording()">Stop Recording</button>
+        <br>
+        <button onclick="startRecording('response2')">Record Response 3</button>
+        <button onclick="stopRecording()">Stop Recording</button>
+        <br>
     </div>
 
 </body>

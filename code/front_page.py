@@ -103,15 +103,15 @@ def cover_letter():
 def record_audio():
     return render_template('audiorec.html')
 
-@app.route('/transcribe', methods=['POST'])
-def transcribe_audio():
+@app.route('/transcribe<response>', methods=['POST'])
+def transcribe_audio(response):
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'})
 
     audio_file = request.files['audio']
 
     # Save the audio file temporarily
-    temp_audio_path = 'temp_audio.wav'
+    temp_audio_path = os.path.join(app.config['UPLOAD_FOLDER'], f'temp_audio_{response}.wav')
     audio_file.save(temp_audio_path)
 
     # Load the audio file
