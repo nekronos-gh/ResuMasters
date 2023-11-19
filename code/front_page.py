@@ -5,6 +5,7 @@ from open_interface import load_api_keys_from_json
 import markdown
 import re
 import os
+import torchaudio
 
 from resume_functions import gap_finder, get_recommendations, write_cover
 
@@ -127,6 +128,9 @@ def transcribe_audio():
     audio_file.save(temp_audio_path)
 
     # Load the audio file
+    waveform, sample_rate = torchaudio.load(temp_audio_path)
+    print(waveform)
+    print(sample_rate)
     # put google code thing here
     transcription = 'placeholder blah blah'
     # Remove the temporary audio file
