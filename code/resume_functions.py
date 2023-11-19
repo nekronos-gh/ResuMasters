@@ -26,8 +26,6 @@ def gap_finder(resume, job_desc):
 
     return filename
     
-    
-
 
 def get_recommendations(resume):
     description = ""
@@ -46,3 +44,16 @@ def get_recommendations(resume):
                 "url": job["url"] if "url" in job.keys() else None,
                 "description": description,
             }
+
+def write_cover(resume, job_desc):
+    # Interact with chatGPT
+    promt = prompter.coverLetter((job_desc, resume))
+    result = ask_gpt(promt)
+    
+    path_to_folder = "uploads"
+    filename = "cover_letter.txt"
+    filename = os.path.join(path_to_folder, filename)
+    with open(filename, 'w') as cover:
+       cover.write(result) 
+
+    return filename

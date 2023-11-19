@@ -6,7 +6,7 @@ import markdown
 import re
 import os
 
-from resume_functions import gap_finder, get_recommendations
+from resume_functions import gap_finder, get_recommendations, write_cover
 
 app = Flask(__name__)
 
@@ -87,7 +87,11 @@ def display_resume_improvement(resume, job_description):
     
     #return render_template('display_content.html', filename=improvement_file)
     return redirect(url_for('display_content', relative_path=improvement_file))
-    
+
+def display_cover_letter(resume,job_description):
+    cover_letter_file = write_cover(resume,job_description)
+    return redirect(url_for('display_content',relative_path=cover_letter_file))
+
 @app.route('/')
 def front_page():
     return render_template('front_page.html')
@@ -169,6 +173,39 @@ def upload(category):
             #return redirect(url_for('display_content_skill', filename=file.filename))
 
         return render_template('upload_page_skill_suggest.html', message='Invalid file format')
+    
+    if category == "cover_letter":
+            
+        if 'file' not in request.files:
+            return render_template('upload_page_cover_letter.html', message='Upload your files here')
+
+        file = request.files['file']
+        job_description = request.form['job_description']
+        
+             # Save job description in a separate file
+        job_description_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'job_description.txt')
+        with open(job_description_filename, 'w') as job_file:
+            job_file.write(job_description)
+
+        if file.filename == '':
+            return render_template('upload_page_cover_letter.html', message='No selected file')
+
+        if file and allowed_file(file.filename):
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+            
+            # Extract information from the uploaded file
+            resume = extract_file_content(filename)
+            
+            #print("debug in upload")
+            #print(resume)
+            
+            return display_cover_letter(resume,job_description)
+
+            
+            #return redirect(url_for('display_content_skill', filename=file.filename))
+
+        return render_template('upload_page_cover_letter.html', message='Invalid file format')
         
         
 
