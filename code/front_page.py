@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from PyPDF2 import PdfReader
 from docx2txt import process
 from open_interface import load_api_keys_from_json
@@ -110,6 +110,33 @@ def skill_improvement():
 def cover_letter():
     #return render_template('upload_page_skill_suggest.html')
     return redirect(url_for('upload', category='cover_letter'))
+
+@app.route('/record_audio')
+def record_audio():
+    return render_template('audiorec.html')
+
+@app.route('/transcribe', methods=['POST'])
+def transcribe_audio():
+    if 'audio' not in request.files:
+        return jsonify({'error': 'No audio file provided'})
+
+    audio_file = request.files['audio']
+
+    # Save the audio file temporarily
+    temp_audio_path = 'temp_audio.wav'
+    audio_file.save(temp_audio_path)
+
+    # Load the audio file
+    # put google code thing here
+    transcription = 'placeholder blah blah'
+    # Remove the temporary audio file
+    os.remove(temp_audio_path)
+
+    return jsonify({'transcription': transcription})
+
+@app.route('/audioresult')
+def audio_result():
+    return 'intentionally left blank'
     
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
