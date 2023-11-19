@@ -2,16 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from PyPDF2 import PdfReader
 from docx2txt import process
 from open_interface import load_api_keys_from_json
-# from google.cloud import texttospeech
 import wave
 import markdown
 import re
 import os
-import sounddevice as sd
-import numpy as np
 import pygame
-#import pyaudio
-#p=pyaudio.PyAudio()
 
 from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance, get_projects
 import gcloud_stt
