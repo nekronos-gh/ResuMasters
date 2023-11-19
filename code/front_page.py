@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from PyPDF2 import PdfReader
 from docx2txt import process
 from open_interface import load_api_keys_from_json
+from google.cloud import texttospeech
+import wave
 import markdown
 import re
 import os
@@ -233,6 +235,20 @@ def display_content(relative_path):
     
 
     return render_template('display_content.html', file_content=file_content)
+    
+
+
+
+'''
+
+@app.route('/convert', methods=['POST'])
+def convert():
+    if request.method == 'POST':
+        input_text = request.form['text_input']
+        text_to_speech(input_text)
+        return render_template('result.html')
+'''
+
 
 
 @app.route('/display_jobs')
