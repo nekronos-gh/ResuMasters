@@ -97,6 +97,8 @@ def get_interview_questions(resume, job_description):
     
     questions = extract_file_content(filename)
     
+    session['questions'] = questions
+    
     #print("interview questions")
     #print(questions)
     
@@ -171,9 +173,21 @@ def button_click(row, button):
         recording_status[row] = False
         save_audio(row)
         status = f"Recording stopped for Row {row}"
+        create_text(row)
 
     return {"status": status}
     
+def create_text(row):
+
+    file = "response" + str(row) + "_recording.wav"
+    
+    filecontent = gcloud_stt.speech_to_text(file)
+    
+    filename = "answer" + str(row) + ".txt"
+    
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    with open(filename, 'w') as cover:
+       cover.write(filecontent)
 
 
 def play_audio(row):
@@ -211,9 +225,20 @@ def save_audio(row):
 
 @app.route('/interview_results')
 def display_interview_results():
-    ##
-    cover_letter_file = write_cover()
-    return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter", button="false"))
+
+    answers = ""
+    for i in range(1,4):
+        file = "answer" + str(i) + ".txt"
+        filecontent = extract_file_content(file)
+        answers = answers + "/n" + filecontent
+        
+    context = session.get("context")
+    questions = session.get("questions")
+    
+    interview_results = get_interview_performance(context, questions, answers)
+
+
+    return redirect(url_for('display_content',relative_path=interview_results, title="Interview Results", button="false"))
 
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
