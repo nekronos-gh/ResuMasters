@@ -203,29 +203,11 @@ def save_audio(row):
     wf.writeframes(b''.join(frames))
     wf.close()
 
-# Callback function for the recording stream
-def callback(indata, frames, time, status):
-    global filename
-
-    frames.append(indata.copy())
-
-    if status:
-        print(f"Error in recording callback: {status}")
-
-# Function to save recorded audio using sounddevice
-def save_audio(row):
-    global recording_streams
-
-    if recording_streams[row] is not None:
-        recording_streams[row].stop()
-        recording_streams[row].close()
-        recording_streams[row] = None
-
-    filename = os.path.join(app.config['UPLOAD_FOLDER'], f"response{row}_recording.wav")
-    frames = recording_streams[row]["frames"]
-    if len(frames) > 0:
-        frames_np = np.concatenate(frames, axis=0)
-        sd.write(filename, frames_np, samplerate=44100)
+@app.route('/interview_results')
+def display_interview_results():
+    ##
+    cover_letter_file = write_cover()
+    return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter", button="false"))
 
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
