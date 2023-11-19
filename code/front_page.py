@@ -7,19 +7,18 @@ import wave
 import markdown
 import re
 import os
-#import pyaudio
+import sounddevice as sd
+import numpy as np
 import pygame
+import pyaudio
+p=pyaudio.PyAudio()
 
 from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance, get_projects
 import gcloud_stt
 import gcloud_tts
 
 app = Flask(__name__)
-'''
-p = pyaudio.PyAudio()
-recording_status = {1: False, 2: False, 3: False}
-pygame.mixer.init()
-'''
+
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf','docx'}
@@ -115,7 +114,7 @@ def get_interview_questions(resume, job_description):
         print(f"Question {i}: {question.strip()}")
 
 
-    return "we are placeholder for now"
+    return redirect(url_for('record_resp'))
     
 
     # Add logic to display resume improvement suggestions based on file_content and job_description
@@ -152,12 +151,12 @@ def sample_interview():
 @app.route('/record_resp')
 def record_resp():
     return render_template('response_rec.html')
-'''
+recording_status = {1: False, 2: False, 3: False}
+pygame.mixer.init()
 # Route to handle button clicks
 @app.route('/button_click/<int:row>/<int:button>')
 def button_click(row, button):
     global recording_status
-
     if button == 1:  # Play audio button
         play_audio(row)
         status = f"Playing audio for Row {row}"
@@ -203,7 +202,31 @@ def save_audio(row):
     wf.setframerate(44100)
     wf.writeframes(b''.join(frames))
     wf.close()
-'''
+
+# Callback function for the recording stream
+def callback(indata, frames, time, status):
+    global filename
+
+    frames.append(indata.copy())
+
+    if status:
+        print(f"Error in recording callback: {status}")
+
+# Function to save recorded audio using sounddevice
+def save_audio(row):
+    global recording_streams
+
+    if recording_streams[row] is not None:
+        recording_streams[row].stop()
+        recording_streams[row].close()
+        recording_streams[row] = None
+
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], f"response{row}_recording.wav")
+    frames = recording_streams[row]["frames"]
+    if len(frames) > 0:
+        frames_np = np.concatenate(frames, axis=0)
+        sd.write(filename, frames_np, samplerate=44100)
+
 @app.route('/upload/<category>', methods=['GET', 'POST'])
 def upload(category):
 

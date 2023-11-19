@@ -1,10 +1,10 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Transcribe</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         body {
             background-image: url('your-background-image.jpg'); /* Replace with your background image URL */
@@ -35,16 +35,16 @@
             margin-top: 20px;
             padding: 20px;
         }
-        
+
         label, textarea, input {
             display: block;
             margin-bottom: 20px;
         }
-        
+
         textarea {
             margin-left: 55px;
         }
-        
+
         input {
             margin-left: 200px;
         }
@@ -87,9 +87,9 @@
     <br>
     <button onclick="go_to_results()">Get your Results</button>
 </div>
-    
+
 <p id="status">Status: None</p>
-    
+
 <script>
 function buttonClick(row, button) {
     $.ajax({
@@ -103,10 +103,7 @@ function buttonClick(row, button) {
         }
     });
 }
-function go_to_results(){
-    window.location.href='/interview_results'
-}
 </script>
- 
+
 </body>
 </html>
