@@ -259,6 +259,8 @@ def display_content(relative_path):
     markdown.markdownFromFile(input=file_path, output=file_path)
     file_content = extract_file_content(file_path)
     
+    return render_template('display_content.html', file_content=file_content, title = request.args['title'])
+    
 
 '''
 
