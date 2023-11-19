@@ -31,14 +31,19 @@
         ul li {
           padding-left: 20px;
           position: relative;
+          font-size: 14px;
         }
 
         ul li:before {
           content: '\2022'; /* Unicode character for a bullet point */
+          display: inline-block;
           color: #3498db;
           font-weight: bold;
           position: absolute;
+          font-size: 14px;
           left: 0;
+          top: 50%; /* Adjust the positioning to center the number */
+          transform: translateY(-50%); /* Center the number vertically */
         }
 
         /* Basic styling for ordered lists */
@@ -52,6 +57,7 @@
           counter-increment: item;
           padding-left: 30px;
           position: relative;
+          font-size: 14px;
         }
 
         ol li:before {
@@ -77,7 +83,7 @@
           font-size: 14px;
           line-height: 1.6;
           color: #333;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         }
 
         form {
@@ -107,9 +113,6 @@
 </head>
 <body>
     <div class="container">
-        {% if message %}
-            <p>{{ message }}</p>
-        {% endif %}
         {% if file_content %}
             {% if title %}
                 <h2>{{ title }}</h2>

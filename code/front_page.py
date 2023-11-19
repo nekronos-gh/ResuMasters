@@ -74,11 +74,11 @@ def display_resume_improvement(resume, job_description):
     improvement_file = gap_finder(resume, job_description)
     
     #return render_template('display_content.html', filename=improvement_file)
-    return redirect(url_for('display_content', relative_path=improvement_file))
+    return redirect(url_for('display_content', relative_path=improvement_file, title="Resume gaps"))
 
 def display_cover_letter(resume,job_description):
     cover_letter_file = write_cover(resume,job_description)
-    return redirect(url_for('display_content',relative_path=cover_letter_file))
+    return redirect(url_for('display_content',relative_path=cover_letter_file, title="Cover letter"))
 
 @app.route('/')
 def front_page():
@@ -234,11 +234,6 @@ def display_content(relative_path):
     file_content = extract_file_content(file_path)
     
 
-    return render_template('display_content.html', file_content=file_content)
-    
-
-
-
 '''
 
 @app.route('/convert', methods=['POST'])
@@ -254,7 +249,12 @@ def convert():
 @app.route('/display_jobs')
 def display_jobs():
     suggestions = session.get("recommendations")
-    return render_template('display_jobs.html', job_list=suggestions[0], number=suggestions[1])
+    title = "Suggested Jobs"
+    if not suggestions or len(suggestions) == 0:
+        suggestions[0] = []
+        suggestions[1] = 0
+
+    return render_template('display_jobs.html', job_list=suggestions[0], number=suggestions[1], title="No suitable jobs found")
 
 
 if __name__ == "__main__":
