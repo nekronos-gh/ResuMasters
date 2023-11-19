@@ -10,8 +10,8 @@ import os
 import sounddevice as sd
 import numpy as np
 import pygame
-import pyaudio
-p=pyaudio.PyAudio()
+#import pyaudio
+#p=pyaudio.PyAudio()
 
 from resume_functions import gap_finder, get_recommendations, write_cover, get_interview_questions_prompt, get_interview_performance, get_projects
 import gcloud_stt
@@ -114,8 +114,9 @@ def get_interview_questions(resume, job_description):
         print(f"Question {i}: {question.strip()}")
 
 
-    return redirect(url_for('record_resp'))
+
     
+    return redirect(url_for('record_resp'))
 
     # Add logic to display resume improvement suggestions based on file_content and job_description
     #improvement_file = gap_finder(resume, job_description)
@@ -151,8 +152,10 @@ def sample_interview():
 @app.route('/record_resp')
 def record_resp():
     return render_template('response_rec.html')
+
 recording_status = {1: False, 2: False, 3: False}
 pygame.mixer.init()
+
 # Route to handle button clicks
 @app.route('/button_click/<int:row>/<int:button>')
 def button_click(row, button):
@@ -170,14 +173,17 @@ def button_click(row, button):
         status = f"Recording stopped for Row {row}"
 
     return {"status": status}
+    
+
 
 def play_audio(row):
     # Generate the filename for the audio file
-    filename = os.path.join(app.config['UPLOAD_FOLDER'],f"q{row}_tts.wav")
+    filename = os.path.join(app.config['UPLOAD_FOLDER'],f"question{row}.wav")
 
     # Load and play the audio file
     pygame.mixer.music.load(filename)
     pygame.mixer.music.play()
+
 
 def start_audio(row):
      # Implement code to save the recorded audio to a wav file for the specified row
